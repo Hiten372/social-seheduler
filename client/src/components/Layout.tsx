@@ -11,8 +11,8 @@ const pageTitles: Record<string, string> = {
 };
 
 const Layout = () => {
-  const currentPath = useLocation();
-  const title = pageTitles[currentPath.pathname] || "Social Scheduler";
+  const { pathname } = useLocation();
+  const title = pageTitles[pathname] || "Social Scheduler";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
@@ -30,6 +30,7 @@ const Layout = () => {
         {/* top bar */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center  px-4 md:px-8 gap-4">
           <button
+            aria-label="Open menu"
             className="md:hidden p-2 -ml-2 text-slate-500"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
