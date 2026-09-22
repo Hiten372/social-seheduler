@@ -21,6 +21,18 @@ const Scheduler = () => {
   }, []);
   const scheduled = posts.filter((p) => p.satus === "scheduled");
   const published = posts.filter((p) => p.satus === "published");
+  const togglePlatform = (id: string) =>
+    setSelectedPlatforms((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
+    );
+  const handleSchedule = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setPosts((prev) => [...prev, dummyPostsData[0]]);
+    }, 1000);
+  };
   return (
     <div className="flex felx-col lg:flex-row gap-6 h-full">
       {/*compose Panel*/}
@@ -30,7 +42,7 @@ const Scheduler = () => {
           <div className="flex items-center gap-2 mb-6">
             <h2 className="text-lg text-salte-700">Compose Posts</h2>
           </div>
-          <form action={""} className="space-y-5">
+          <form action={""} className="space-y-5" onSubmit={handleSchedule}>
             {/* Platforms */}
             <div>
               <label
@@ -46,6 +58,7 @@ const Scheduler = () => {
                     <button
                       key={p.id}
                       type="button"
+                      onClick={() => togglePlatform(p.id)}
                       className={`flex items-center gap-1.5 p-3 rounded-md border transition-all duration-150 ${active ? "bg-red-50 border-red-300 text-red-500 scale-103" : "border-salte-200 text-slate-500 hover:border-slate-300"}`}
                     >
                       <p.icon className="size-4.5" />
