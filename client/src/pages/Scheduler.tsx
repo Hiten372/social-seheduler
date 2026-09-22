@@ -3,7 +3,7 @@ import { dummyPostsData, PLATFORMS } from "../assets/assets";
 
 const Scheduler = () => {
   const [posts, setPosts] = useState<any[]>([]);
-  const [content, setConent] = useState<String>("");
+  const [content, setContent] = useState("");
   const [scheduledDate, setScheduledDate] = useState("");
   const [scheduledTime, setScheduledTime] = useState("");
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
@@ -38,17 +38,14 @@ const Scheduler = () => {
       {/*compose Panel*/}
 
       <div className="w-full lg:w-[460px] shrink-0">
-        <div className="bg-white rounded-2xl border border-salte-200 p-6">
+        <div className="bg-white rounded-2xl border border-slate-200 p-6">
           <div className="flex items-center gap-2 mb-6">
             <h2 className="text-lg text-salte-700">Compose Posts</h2>
           </div>
           <form action={""} className="space-y-5" onSubmit={handleSchedule}>
             {/* Platforms */}
             <div>
-              <label
-                htmlFor=""
-                className="block text-xs text-slate-500 uppercase mb-2"
-              >
+              <label className="block text-xs text-slate-500 uppercase mb-2">
                 Platforms
               </label>
               <div className="flex flex-wrap gap-3">
@@ -69,6 +66,24 @@ const Scheduler = () => {
             </div>
 
             {/* Content */}
+            <div>
+              <label className="block text-xs text-slate-500 uppercase mb-2">
+                Content
+              </label>
+              <textarea
+                required
+                rows={5}
+                placeholder="What do you wnat to share today?"
+                className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-salte-900 text-sm placeholder-slate-400 outline-none resize-none"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+              <div
+                className={`text-right text-xs mt-1 font-medium ${content.length > 270 ? "text-red-500" : "text-slate-400"}`}
+              >
+                {content.length}/280
+              </div>
+            </div>
 
             {/* Media Upload */}
 
