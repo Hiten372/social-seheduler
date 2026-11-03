@@ -4,7 +4,7 @@ import { dummyGenerationData } from "../assets/assets";
 const AiComposer = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [tone, setTone] = useState<string>("");
-  const [generateImage, setGenerateIamge] = useState<boolean>(true);
+  const [generateImage, setGenerateImage] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [generations, setGenerations] = useState<any[]>([]);
 
@@ -37,7 +37,10 @@ const AiComposer = () => {
             }}
           />
           <div className="absolute bottom-4 right-2.5 flex items-center gap-3 text-sm">
-            <button className="flex items-center gap-3 bg-red-50 py-2 px-3 rounded-lg">
+            <button
+              onClick={() =>  setGenerateImage(!generateImage)}
+              className="flex items-center gap-3 bg-red-50 py-2 px-3 rounded-lg"
+            >
               <span>Ai Image</span>
               <div
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${generateImage ? "bg-red-500" : "bg-slate-200"}`}
