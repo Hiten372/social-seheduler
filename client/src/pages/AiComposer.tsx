@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { dummyGenerationData } from "../assets/assets";
+import { ArrowRightIcon, HistoryIcon, Loader2Icon } from "lucide-react";
 
 const AiComposer = () => {
   const [prompt, setPrompt] = useState<string>("");
@@ -17,6 +18,13 @@ const AiComposer = () => {
   useEffect(() => {
     fetchGeneration();
   }, []);
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   const tones = ["Professional", "Creative", "Funny", "Minimalist", "Excited"];
 
@@ -38,7 +46,7 @@ const AiComposer = () => {
           />
           <div className="absolute bottom-4 right-2.5 flex items-center gap-3 text-sm">
             <button
-              onClick={() =>  setGenerateImage(!generateImage)}
+              onClick={() => setGenerateImage(!generateImage)}
               className="flex items-center gap-3 bg-red-50 py-2 px-3 rounded-lg"
             >
               <span>Ai Image</span>
@@ -50,11 +58,48 @@ const AiComposer = () => {
                 />
               </div>
             </button>
+            <button
+              onClick={handleGenerate}
+              disabled={loading}
+              className="bg-slate-900 hover:bg-slate-800 text-white flex items-center gap-2 px-4 py-2 rounded-lg"
+            >
+              {loading ? (
+                <>
+                  <Loader2Icon className="size-4 animate-spin" />
+                  <span>Generating...</span>
+                </>
+              ) : (
+                <>
+                  Generate
+                  <ArrowRightIcon className="size-4" />
+                </>
+              )}
+            </button>
           </div>
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          {tones.map((items) => (
+            <button
+              key={items}
+              onClick={() => setTone(items)}
+              className={`px-4 py-1.5 rounded-full text-sm transsition-all border ${tone === items ? "bg-red-500 text-white border-red-500" : "bg-white border-slate-500 hover:border-slate-300"}`}
+            >
+              {items}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Ai Generated Poats*/}
+      <div className="space-y-6 pt-12 border-t border-slate-300">
+        <div>
+          <div className="flex items-center gap-2">
+            <HistoryIcon className="size-5" />
+            <h2 className="text-xl">Recent Generations</h2>
+          </div>
+          <span>{generations.length} total</span>
+        </div>
+      </div>
       {/* Scheduler Modal*/}
     </div>
   );
