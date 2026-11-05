@@ -90,14 +90,46 @@ const AiComposer = () => {
         </div>
       </div>
 
-      {/* Ai Generated Poats*/}
+      {/* Ai Generated Posts*/}
       <div className="space-y-6 pt-12 border-t border-slate-300">
-        <div>
+        <div className="flex items-center justify-between text-slate-600">
           <div className="flex items-center gap-2">
             <HistoryIcon className="size-5" />
             <h2 className="text-xl">Recent Generations</h2>
           </div>
-          <span>{generations.length} total</span>
+          <span className="text-sm text-slate-500 bg-slate-50 px-2">
+            {generations.length} total
+          </span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {generations.map((gen) => (
+            <div
+              key={gen._id}
+              className="group bg-white rounded-2xl border border-slate-100 p-5 hover:border-red-200 transition-all relative overflow-hidden"
+            >
+              <div className="flex flex-col h-full space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-400 uppercase tracking-widest">
+                    {new Date(gen.createdAt).toLocaleString()}
+                  </span>
+                  <span className="text-xs text-red-500 bg-red-50 px-2 py-0.5 rounded-md">
+                    {gen.tone}
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600 line-clamp-3 leading-relaxed flex-1">
+                  {gen.content}
+                </p>
+                {gen.mediaUrl && (
+                  <div className="rounded-xl overflow-hidden border border-slate-50 bg-slate-50">
+                    <img
+                      src={gen.mediaUrl}
+                      className="w-full aspect-video object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       {/* Scheduler Modal*/}
