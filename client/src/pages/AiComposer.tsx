@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { dummyGenerationData } from "../assets/assets";
+import { dummyGenerationData, PLATFORMS } from "../assets/assets";
 import {
   ArrowRightIcon,
   HistoryIcon,
@@ -14,7 +14,7 @@ const AiComposer = () => {
   const [generateImage, setGenerateImage] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [generations, setGenerations] = useState<any[]>([]);
-
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   //Scheduling state
   const [activeScheduler, setActiveScheduler] = useState<any>(null);
 
@@ -159,34 +159,72 @@ const AiComposer = () => {
       </div>
       {/* Scheduler Modal*/}
       {activeScheduler && (
-        <div className="fixed inset-0 min-h-screen z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-h-[90vh]">
-            <div className="flex items-center justify-between px-8 py-4 border-b border-slate-100 bg-slate-50/30">
-              <h3 className="text-slate-900">Schedule Generation</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+            {/* Fixed Header */}
+            <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-slate-900 font-semibold text-lg">
+                Schedule Generation
+              </h3>
+
               <button
                 onClick={() => setActiveScheduler(null)}
-                className="p-2 rounded-full hover:bg-slate-100 bg-slate-400 transition-colors"
+                className="p-2 rounded-full hover:bg-slate-200 transition-colors"
               >
-                <XIcon className="size-5" />
+                <XIcon className="size-5 text-slate-700" />
               </button>
             </div>
-            <div className="flex-1  flex-wrap overflow-y-auto p-8 space-y-4">
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 space-y-4">
-                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-wrap">
+
+            {/* Scrollable Content */}
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4">
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-wrap break-words">
                   {activeScheduler.prompt}
                 </p>
               </div>
+
               <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 space-y-4">
-                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-wrap">
+                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-wrap break-words">
                   {activeScheduler.content}
                 </p>
+
                 {activeScheduler.mediaUrl && (
                   <img
                     src={activeScheduler.mediaUrl}
                     alt="preview"
-                    className="w-full aspect-video object-cover rounded-xl border border-slate-200 shadow-sm"
+                    className="w-full aspect-video object-contain rounded-xl border border-slate-200 shadow-sm"
                   />
                 )}
+              </div>
+            </div>
+            <div className="p-8 bg-slate-50/50 bordeer-t border-slate-50 space-y-8">
+              {/* options */}
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-xs text-slate-600 uppercase tracking-widest mb-4">
+                    Select Channels
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {PLATFORMS.map((p) => {
+                      const active = selectedPlatforms.includes(p.id);
+                      return (
+                        <button
+                          key={p.id}
+                          onClick={() =>
+                            setSelectedPlatforms((prev) =>
+                              prev.includes(p.id)
+                                ? prev.filter((x) => x !== p.id)
+                                : [...prev, p.id],
+                            )
+                          }
+                          className={`p-2.5 rounded-md border text-xs ${active ? "bg-red-500/80 text-white " : "bg-white border-slate-200 hover:border-slate-300 text-slate-400"}`}
+                        >
+                          <p.icon className="size-4.5" />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
