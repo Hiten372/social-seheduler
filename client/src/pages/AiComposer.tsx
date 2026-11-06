@@ -170,6 +170,25 @@ const AiComposer = () => {
                 <XIcon className="size-5" />
               </button>
             </div>
+            <div className="flex-1  flex-wrap overflow-y-auto p-8 space-y-4">
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 space-y-4">
+                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-wrap">
+                  {activeScheduler.prompt}
+                </p>
+              </div>
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 space-y-4">
+                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-wrap">
+                  {activeScheduler.content}
+                </p>
+                {activeScheduler.mediaUrl && (
+                  <img
+                    src={activeScheduler.mediaUrl}
+                    alt="preview"
+                    className="w-full aspect-video object-cover rounded-xl border border-slate-200 shadow-sm"
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
