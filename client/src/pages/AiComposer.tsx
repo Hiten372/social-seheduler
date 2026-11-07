@@ -17,13 +17,13 @@ const AiComposer = () => {
   const [generateImage, setGenerateImage] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [generations, setGenerations] = useState<any[]>([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
-  //Scheduling state
-  const [activeScheduler, setActiveScheduler] = useState<any>(null);
-   const [scheduledDate, setScheduledDate] = useState("");
-   const [scheduledTime, setScheduledTime] = useState("");
-   const [scheduling, setScheduling]=useState(false);
 
+  //Scheduling state
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [activeScheduler, setActiveScheduler] = useState<any>(null);
+  const [scheduledDate, setScheduledDate] = useState("");
+  const [scheduledTime, setScheduledTime] = useState("");
+  const [scheduling, setScheduling] = useState(false);
 
   const fetchGeneration = async () => {
     setGenerations(dummyGenerationData);
@@ -38,11 +38,11 @@ const AiComposer = () => {
       setLoading(false);
     }, 2000);
   };
-  const handleSchedule = async ()=>{
-     setScheduling(true);
+  const handleSchedule = async () => {
+    setScheduling(true);
     setTimeout(() => {
       setScheduling(false);
-    } ,2000);
+    }, 2000);
   };
 
   const tones = ["Professional", "Creative", "Funny", "Minimalist", "Excited"];
@@ -239,19 +239,36 @@ const AiComposer = () => {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="relative"> 
-                    <CalendarIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"/>
-                    <input type="date" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-md  text-slate-900 text-sm focus:outline-none transition-all" value={scheduledDate} onChange={(e)=>setScheduledDate(e.target.value)}/>
+                  <div className="relative">
+                    <CalendarIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="date"
+                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-md  text-slate-900 text-sm focus:outline-none transition-all"
+                      value={scheduledDate}
+                      onChange={(e) => setScheduledDate(e.target.value)}
+                    />
                   </div>
-                   <div className="relative"> 
-                    <ClockIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"/>
-                    <input type="time" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-md  text-slate-900 text-sm focus:outline-none transition-all" value={scheduledTime} onChange={(e)=>setScheduledTime(e.target.value)}/>
+                  <div className="relative">
+                    <ClockIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="time"
+                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-md  text-slate-900 text-sm focus:outline-none transition-all"
+                      value={scheduledTime}
+                      onChange={(e) => setScheduledTime(e.target.value)}
+                    />
                   </div>
-
                 </div>
               </div>
-              <button onClick={handleSchedule} className="w-full flex items-center justify-center gap-2 py-3 rounded-md bg-slate-200 text-slate-700 hover:bg-red-500 hover:text-white transition">
-                {scheduling ? <Loader2Icon className="size-4 animate-spin"/>:<TimerIcon className="size-4"/>}Schedule post
+              <button
+                onClick={handleSchedule}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-md bg-slate-200 text-slate-700 hover:bg-red-500 hover:text-white transition"
+              >
+                {scheduling ? (
+                  <Loader2Icon className="size-4 animate-spin" />
+                ) : (
+                  <TimerIcon className="size-4" />
+                )}
+                Schedule post
               </button>
             </div>
           </div>
