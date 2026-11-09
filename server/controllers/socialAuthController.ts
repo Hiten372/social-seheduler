@@ -111,7 +111,7 @@ export const syncAccounts = async (
           handle:
             zAccount.username || zAccount.name || zAccount.handle || "Unknown",
           zAccountId: zid,
-          satus: "connected",
+          status: "connected",
           avatarUrl:
             zAccount.avatarUrl ||
             zAccount.picture ||
@@ -121,8 +121,8 @@ export const syncAccounts = async (
       );
       syncedAccounts.push(account);
     }
-    res.json(syncAccounts);
-  } catch (error) {
+    res.json(syncedAccounts);
+  } catch (error: any) {
     res.status(500).json({ message: error?.message || "Server error" });
   }
 };
