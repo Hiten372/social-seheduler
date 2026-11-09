@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRouter from "./routes/authRoute.js";
+import socialAuthRouter from "./routes/socialAuthRouters.js";
 
 const app = express();
 // database connection
@@ -17,7 +18,9 @@ const port = process.env.PORT || 3000;
 app.get("/", (_req: Request, res: Response) => {
   res.send("Server is Live!");
 });
+
 app.use("/api/auth/", authRouter);
+app.use("/api/oauth",socialAuthRouter) 
 // global error handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
