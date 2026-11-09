@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import zernio from "../config/zernio.js";
 import { User } from "../models/User.js";
 import { Account } from "../models/Accounts.js";
+import { AuthRequest } from "../middlewares/authMiddleware.js";
 
 // HElper to ensure user has a Zernioa Profile.
 
@@ -38,7 +39,7 @@ export const getCreateZernioProfile = async (user: any): Promise<string> => {
 // Generate OAuth authorization URL
 //Get /api/auth/:platform
 export const generateAuthUrl = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
 ): Promise<void> => {
   try {
@@ -70,7 +71,7 @@ export const generateAuthUrl = async (
 // Sync connect accounts from Zernio into MongoDB
 // GET /api/auth/sync
 export const syncAccounts = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
 ): Promise<void> => {
   try {
