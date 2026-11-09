@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { access } from "node:fs";
 
 const accountSchema = new mongoose.Schema(
   {
