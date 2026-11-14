@@ -38,7 +38,7 @@ export const addAccount = async (
   }
 };
 //Disconnect account
-//DELETE  /api/accounts/:i
+//DELETE  /api/accounts/:id
 export const dissconnectAccount = async (
   req: AuthRequest,
   res: Response,
