@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import zernio from "../config/zernio.js";
 import { User } from "../models/User.js";
 import { Account } from "../models/Accounts.js";
