@@ -5,7 +5,7 @@ const GenerationSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     prompt: { type: String, required: true },
     content: { type: String, required: true },
-    mediaUrl: { type: String },
+    mediaUrl: { type: String, default: "" },
     mediaType: { type: String, enum: ["image", "video"] },
     tone: { type: String },
   },
