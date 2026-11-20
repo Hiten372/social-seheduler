@@ -5,6 +5,8 @@ import axios from "axios";
 import cloudinary from "../config/cloudinary.js";
 import { Readable } from "stream";
 import { Generation } from "../models/Generation.js";
+import { Post } from "../models/Post.js";
+import { rejects } from "assert";
 
 // POST /api/posts/generate
 export const generatePost = async (
@@ -133,7 +135,7 @@ export const generatePost = async (
     res.status(500).json({
       success: false,
       message: "Error generating post",
-      error: error.message,
+      error: error?.message || "server error",
     });
   }
 };
@@ -143,18 +145,79 @@ export const generatePost = async (
 export const getGenerations = async (
   req: AuthRequest,
   res: Response,
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const generations = await Generation.find({ user: req.user?._id }).sort({
+      createdAt: -1,
+    });
+    res.json(generations);
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching generations",
+      error: error?.message || "server error",
+    });
+  }
+};
 
 //Get post
 //Get /api/posts
 export const getPosts = async (
   req: AuthRequest,
   res: Response,
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const posts = await Post.find({ user: req.user?._id });
+    res.json(posts);
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching posts",
+      error: error?.message || "server error",
+    });
+  }
+};
 
 //Schedule post
 //POST /api/posts
 export const schedulePosts = async (
   req: AuthRequest,
   res: Response,
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { content, status, platforms, scheduledFor } = req.body;
+
+    // parse platforms if it comes as a stringified array from formData
+    let parsedPlatforms = platforms;
+    if (typeof platforms === "string") {
+      try {
+        parsedPlatforms = JSON.parse(platforms);
+      } catch (error) {
+        parsedPlatforms = platforms.split(",");
+      }
+    }
+
+    let mediaUrl: string | undefined = req.body.mediaUrl;
+    let mediaType: "image" | "video" | undefined = req.body.mediaType;
+    if (req.file) {
+      const result = await new Promise<any>((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: "auto", folder: "social-scheduler" },
+          (error, result) => {
+            if (error) return reject(error);
+            else resolve(result);
+          },
+        );
+        stream.end(req.file!.buffer);
+      });
+      mediaUrl = result.secure_url;
+      mediaType = result.resource_type === "video" ? "video" : "image";
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Error scheduling post",
+      error: error?.message || "server error",
+    });
+  }
+};
