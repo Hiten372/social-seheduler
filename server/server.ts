@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import authRouter from "./routes/authRoute.js";
 import socialAuthRouter from "./routes/socialAuthRouters.js";
 import accountRouter from "./routes/accountRoutes.js";
+import postRouter from "./routes/postRoutes.js";
 
 const app = express();
 // database connection
@@ -23,6 +24,7 @@ app.get("/", (_req: Request, res: Response) => {
 app.use("/api/auth/", authRouter);
 app.use("/api/oauth", socialAuthRouter);
 app.use("/api/accounts", accountRouter);
+app.use("/api/posts", postRouter);
 // global error handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);

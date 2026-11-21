@@ -204,7 +204,7 @@ export const schedulePosts = async (
         const stream = cloudinary.uploader.upload_stream(
           { resource_type: "auto", folder: "social-scheduler" },
           (error, result) => {
-            if (error) return reject(error);
+            if (error) reject(error);
             else resolve(result);
           },
         );
@@ -213,6 +213,16 @@ export const schedulePosts = async (
       mediaUrl = result.secure_url;
       mediaType = result.resource_type === "video" ? "video" : "image";
     }
+    const post = await Post.create({
+      user: req.user._id,
+      content,
+      platforms: parsedPlatforms,
+      mediaUrl,
+      mediaType,
+      scheduledFor,
+      status,
+    });
+    res.status(200).json(post);
   } catch (error: any) {
     res.status(500).json({
       success: false,
