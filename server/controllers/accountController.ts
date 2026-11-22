@@ -3,7 +3,7 @@ import { AuthRequest } from "../middlewares/authMiddleware.js";
 import { Account } from "../models/Accounts.js";
 import zernio from "../config/zernio.js";
 
-//Get al accounts
+//Get all accounts
 //GET /api/accounts
 export const getAccounts = async (
   req: AuthRequest,
