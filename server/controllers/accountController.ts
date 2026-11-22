@@ -24,11 +24,11 @@ export const addAccount = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const { platfrom, handle, avatarUrl } = req.body;
+    const { platform, handle, avatarUrl } = req.body;
 
     const account = await Account.create({
       user: req.user._id,
-      platfrom,
+      platform,
       handle,
       avatarUrl,
     });

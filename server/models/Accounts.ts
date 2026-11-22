@@ -7,7 +7,7 @@ const accountSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    platfrom: {
+    platform: {
       type: String,
       enum: [
         "twitter",
@@ -25,7 +25,7 @@ const accountSchema = new mongoose.Schema(
     accessToken: { type: String },
     refreshToken: { type: String },
     tokenExpiresAt: { type: Date },
-    satus: {
+    status: {
       type: String,
       enum: ["connected", "disconnected"],
       default: "connected",
