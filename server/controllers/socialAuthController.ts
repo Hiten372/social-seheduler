@@ -51,7 +51,7 @@ export const generateAuthUrl = async (
       path: { platform: platform as any },
       query: {
         profileId,
-        redirect_Url: redirectUrl,
+        redirect_url: redirectUrl,
       },
     });
     const data = result.data as any;
