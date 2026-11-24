@@ -11,7 +11,6 @@ createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <App />
       </AuthProvider>
-      <App />
     </BrowserRouter>
   </StrictMode>,
 );
