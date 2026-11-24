@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MailIcon, LockIcon, ArrowRightIcon, User2Icon } from "lucide-react";
+import {
+  MailIcon,
+  LockIcon,
+  ArrowRightIcon,
+  User2Icon,
+  User,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [loginState, setLoginState] = useState(true);
@@ -21,10 +28,17 @@ export default function Login() {
         `/api/auth/${loginState ? "login" : "register"}`,
         { name, email, password },
       );
-      login(data,data.token)
-      navigate("/dashboard")
-    } catch (error) {}
+      login(data, data.token);
+      navigate("/dashboard");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || error?.message);
+    } finally {
+      setLoading(false);
+    }
   };
+  useEffect(() => {
+    if (user) navigate("/dashboard");
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
