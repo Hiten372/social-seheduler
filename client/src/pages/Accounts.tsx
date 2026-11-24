@@ -3,6 +3,8 @@ import { dummyAccountsData, PLATFORMS } from "../assets/assets";
 import { PlusIcon } from "lucide-react";
 import AccountList from "../components/AccountList.tsx";
 import PlatformPickerModal from "../components/PlatformPickerModal.tsx";
+import toast from "react-hot-toast";
+import api from "../api/axios.ts";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState<any[]>([]);
@@ -13,8 +15,24 @@ const Accounts = () => {
     platform?: string | null,
     successMsg?: string,
   ) => {
-    setAccounts(dummyAccountsData);
-    console.log(isSync, platform, successMsg);
+    try {
+      if (isSync) {
+        const label = platform
+          ? platform.charAt(0).toUpperCase() + platform.slice(1)
+          : "Social Media";
+        toast.loading(`Syncing ${label} account...`, { id: "sync" });
+        await api.get("/api/oauth/sync");
+        toast.success(successMsg || "Accounts synced", { id: "sync" });
+      }
+      const { data } = await api.get("/api/accounts");
+      setAccounts(data);
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Failed to load accounts",
+      );
+    }
   };
   useEffect(() => {
     fetchAccounts();
