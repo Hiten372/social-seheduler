@@ -1,7 +1,8 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
 import { MenuIcon } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const pageTitles: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -11,10 +12,21 @@ const pageTitles: Record<string, string> = {
 };
 
 const Layout = () => {
+  const { isAuthenticated, isLoading } = useAuth();
   const { pathname } = useLocation();
   const title = pageTitles[pathname] || "Social Scheduler";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-50">
+        <div className="size-8 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <div className="flex h-screen bg-slate-50">
       {/* mobile overlay */}
