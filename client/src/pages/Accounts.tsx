@@ -5,6 +5,7 @@ import AccountList from "../components/AccountList.tsx";
 import PlatformPickerModal from "../components/PlatformPickerModal.tsx";
 import toast from "react-hot-toast";
 import api from "../api/axios.ts";
+import { connected } from "process";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState<any[]>([]);
@@ -35,6 +36,19 @@ const Accounts = () => {
     }
   };
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const connectedPlatform = params.get("connected");
+    const connectedUsernane = params.get("username");
+    const syncNeeded = params.get("sync") === "true";
+    const errorMsg = params.get("error");
+
+    window.history.replaceState({}, document.title, window.location.pathname);
+    if (connectedPlatform) {
+      const label =
+        connectedPlatform.charAt(0).toUpperCase() + connectedPlatform.slice(1);
+      const handle = connectedUsernane ? `(@${connectedUsernane})` : "";
+      fetchAccounts(true, connectedPlatform, `${label}${handle} connected!`);
+    }
     fetchAccounts();
   }, []);
   const handleConnect = async (platformId: string) => {
