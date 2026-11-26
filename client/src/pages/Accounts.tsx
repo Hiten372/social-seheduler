@@ -5,7 +5,6 @@ import AccountList from "../components/AccountList.tsx";
 import PlatformPickerModal from "../components/PlatformPickerModal.tsx";
 import toast from "react-hot-toast";
 import api from "../api/axios.ts";
-import { connected } from "process";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState<any[]>([]);
