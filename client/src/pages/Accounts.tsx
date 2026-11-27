@@ -47,6 +47,9 @@ const Accounts = () => {
         connectedPlatform.charAt(0).toUpperCase() + connectedPlatform.slice(1);
       const handle = connectedUsernane ? `(@${connectedUsernane})` : "";
       fetchAccounts(true, connectedPlatform, `${label}${handle} connected!`);
+    } else if (errorMsg) {
+      toast.error(`Connection faild: ${decodeURIComponent(errorMsg)}`);
+      fetchAccounts();
     }
     fetchAccounts();
   }, []);
