@@ -50,6 +50,10 @@ const Accounts = () => {
     } else if (errorMsg) {
       toast.error(`Connection faild: ${decodeURIComponent(errorMsg)}`);
       fetchAccounts();
+    } else if (syncNeeded) {
+      fetchAccounts(true, null, "Accounts synced!");
+    } else {
+      fetchAccounts();
     }
     fetchAccounts();
   }, []);
